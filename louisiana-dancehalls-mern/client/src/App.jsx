@@ -10,9 +10,8 @@ import DancehallDetail from './pages/DancehallDetail.jsx';
 import Parish from './pages/Parish.jsx';
 import MapPage from './pages/Map.jsx';
 import LetsDance from './pages/LetsDance.jsx';
-import Film from './pages/Film.jsx';
-import Links from './pages/Links.jsx';
-import LookAndListen from './pages/LookAndListen.jsx';
+
+
 import YourStory from './pages/YourStory.jsx';
 
 export default function App(){
@@ -27,9 +26,8 @@ export default function App(){
         <Route path="/parish/:parish" element={<Parish/>}/>
         <Route path="/map" element={<MapPage/>}/>
         <Route path="/lets-dance" element={<LetsDance/>}/>
-        <Route path="/film" element={<Film/>}/>
-        <Route path="/links" element={<Links/>}/>
-        <Route path="/look-and-listen" element={<LookAndListen/>}/>
+       
+        
         <Route path="/your-story" element={<YourStory/>}/>
       </Routes>
       <Footer />

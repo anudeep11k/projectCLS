@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export default function DancehallDetail(){
+export default function DancehallDetail() {
   const { slug } = useParams();
   const [hall, setHall] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/dancehalls/${slug}`).then(r=>r.json()).then(setHall);
+    fetch(`/api/dancehalls/${slug}`)
+      .then(r => r.json())
+      .then(data => setHall(data.result || data)) // handle {result:{}} or direct doc
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, [slug]);
 
-  if (!hall) return <div style={{padding:16}}>Loading…</div>;
+  if (loading) return <div style={{padding:20}}>Loading…</div>;
+  if (!hall) return <div style={{padding:20}}>Not found.</div>;
 
   return (
-    <div style={{padding:16}}>
+    <div style={{padding:20}}>
       <h1>{hall.name}</h1>
-      {hall.parish && <p><strong>Parish:</strong> {hall.parish}</p>}
-      {hall.status && <p><strong>Status:</strong> {hall.status}</p>}
-      <div dangerouslySetInnerHTML={{__html: hall.description_html}} />
-      {Array.isArray(hall.images) && hall.images.length > 0 && (
-        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:8, marginTop:8}}>
-          {hall.images.map((img, i) => (
-            <figure key={i}><img src={img.url} alt={img.caption||hall.name} style={{width:'100%'}} /><figcaption>{img.caption}</figcaption></figure>
-          ))}
-        </div>
+      {hall.parish && <p><b>Parish:</b> {hall.parish}</p>}
+      {hall.status && <p><b>Status:</b> {hall.status}</p>}
+      {hall.description_html && (
+        <article dangerouslySetInnerHTML={{__html: hall.description_html}} />
       )}
     </div>
   );
